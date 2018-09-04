@@ -5,7 +5,7 @@ import WidgetList from './WidgetList'
 import WidgetDetails from './WidgetDetails'
 import ErrorMessage from './ErrorMessage'
 
-import {getWidgets} from '../api'
+import {getWidgets, deleteWidget} from '../api'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -24,6 +24,7 @@ export default class App extends React.Component {
     this.hideDetails = this.hideDetails.bind(this)
     this.renderWidgets = this.renderWidgets.bind(this)
     this.showAddWidget = this.showAddWidget.bind(this)
+    this.deleteDetails = this.deleteDetails.bind(this)
   }
 
   componentDidMount () {
@@ -58,6 +59,13 @@ export default class App extends React.Component {
     })
   }
 
+  deleteDetails (widget) {
+    deleteWidget(widget).then(() => {
+      this.refreshList()
+      getWidgets(this.renderWidgets)
+    })
+  }
+
   hideDetails () {
     this.setState({
       detailsVisible: false
@@ -73,7 +81,9 @@ export default class App extends React.Component {
         <button onClick={this.refreshList}>Refresh</button>
         <WidgetList
           showDetails={this.showDetails}
-          widgets={this.state.widgets} />
+          widgets={this.state.widgets} 
+          deleteDetails={this.deleteDetails}
+          />
 
         <p>
           <a id='show-widget-link' href='#'

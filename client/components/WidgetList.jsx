@@ -11,7 +11,9 @@ export default function WidgetList (props) {
           key={widget.id}
           widget={widget}
           hideDetails={props.hideDetails}
-          showDetails={props.showDetails} />
+          showDetails={props.showDetails} 
+          deleteDetails={props.deleteDetails}
+          />
       })}
     </div>
   )

@@ -945,6 +945,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getWidgets = getWidgets;
 exports.appendWidget = appendWidget;
+exports.deleteWidget = deleteWidget;
 
 var _superagent = __webpack_require__(31);
 
@@ -963,6 +964,15 @@ function getWidgets(callback) {
 function appendWidget(widget, callback) {
   _superagent2.default.post(widgetUrl).send(widget).end(function (err, res) {
     callback(err);
+  });
+}
+
+function deleteWidget(widget) {
+  var url = '/api/v1/widgets/' + widget.id;
+  return new Promise(function (resolve, reject) {
+    _superagent2.default.delete(url).end(function (err, res) {
+      if (err) reject(err);else resolve();
+    });
   });
 }
 
@@ -18383,6 +18393,7 @@ var App = function (_React$Component) {
     _this.hideDetails = _this.hideDetails.bind(_this);
     _this.renderWidgets = _this.renderWidgets.bind(_this);
     _this.showAddWidget = _this.showAddWidget.bind(_this);
+    _this.deleteDetails = _this.deleteDetails.bind(_this);
     return _this;
   }
 
@@ -18424,6 +18435,16 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'deleteDetails',
+    value: function deleteDetails(widget) {
+      var _this2 = this;
+
+      (0, _api.deleteWidget)(widget).then(function () {
+        _this2.refreshList();
+        (0, _api.getWidgets)(_this2.renderWidgets);
+      });
+    }
+  }, {
     key: 'hideDetails',
     value: function hideDetails() {
       this.setState({
@@ -18449,7 +18470,9 @@ var App = function (_React$Component) {
         ),
         _react2.default.createElement(_WidgetList2.default, {
           showDetails: this.showDetails,
-          widgets: this.state.widgets }),
+          widgets: this.state.widgets,
+          deleteDetails: this.deleteDetails
+        }),
         _react2.default.createElement(
           'p',
           null,
@@ -20681,7 +20704,9 @@ function WidgetList(props) {
         key: widget.id,
         widget: widget,
         hideDetails: props.hideDetails,
-        showDetails: props.showDetails });
+        showDetails: props.showDetails,
+        deleteDetails: props.deleteDetails
+      });
     })
   );
 }
@@ -20706,7 +20731,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function WidgetListItem(_ref) {
   var widget = _ref.widget,
-      showDetails = _ref.showDetails;
+      showDetails = _ref.showDetails,
+      deleteDetails = _ref.deleteDetails;
 
   return _react2.default.createElement(
     'div',
@@ -20717,7 +20743,14 @@ function WidgetListItem(_ref) {
       { href: '#', onClick: function onClick() {
           return showDetails(widget);
         } },
-      'details'
+      'Details'
+    ),
+    _react2.default.createElement(
+      'a',
+      { href: '#', onClick: function onClick() {
+          return deleteDetails(widget);
+        } },
+      'Delete'
     )
   );
 }

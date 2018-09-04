@@ -18,3 +18,15 @@ export function appendWidget (widget, callback) {
       callback(err)
     })
 }
+
+export function deleteWidget (widget) {
+  let url = `/api/v1/widgets/${widget.id}`;
+  return new Promise((resolve, reject) => {
+    request
+      .delete(url)
+      .end((err, res) => {
+        if (err) reject(err)
+        else resolve()        
+      })
+  })
+}
