@@ -1,0 +1,36 @@
+{
+  "name": "charlottes-web-log-api",
+  "version": "0.2.0",
+  "description": "A spider's blog about her web",
+  "repository": "https://github.com/dev-academy-challenges/charlottes-web-log-api.git",
+  "main": "server/index.js",
+  "author": "EDA",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon server & webpack --watch",
+    "start": "webpack && node server",
+    "knex": "knex"
+  },
+  "babel": {
+    "presets": ["env", "react"]
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "lodash": "^4.17.4",
+    "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "nodemon": "^1.14.12",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "superagent": "^3.5.2",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.0.8"
+  }
+}
