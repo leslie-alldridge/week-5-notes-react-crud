@@ -79,6 +79,8 @@ export default class App extends React.Component {
   }
 
   deleteDetails (widget) {
+    console.log(widget);
+    
     deleteWidget(widget).then(() => {
       this.refreshList()
       getWidgets(this.renderWidgets)

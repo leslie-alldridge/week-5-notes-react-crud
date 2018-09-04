@@ -19,6 +19,8 @@ router.post('/', function (req, res) {
 router.delete('/:id', (req, res) => {
   
   let id = req.params.id
+  console.log(id);
+  
   db.deleteWidget(id)
   res.sendStatus(200)
 })

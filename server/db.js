@@ -38,6 +38,9 @@ function saveWidget (widget) {
 }
 
 function deleteWidget (id) {
+  //console.log(id);
+
+  
     widgets = widgets.filter((widget) => {
       return widget.id != id;
     })
@@ -45,7 +48,21 @@ function deleteWidget (id) {
 
 function updateWidget (id, widget) {
   let nid = id - 1;
+  
+  console.log(id);
+   widget = {
+    id: Number(id),
+    name: widget.name,
+    price: widget.price,
+    mfg: widget.mfg,
+    inStock: widget.inStock,
+    rating: widget.rating
+   }
+   console.log(widget);
    let foundWidget = widgets[nid];
+
    foundWidget = widget;
+
    widgets[nid] = foundWidget
+
 }

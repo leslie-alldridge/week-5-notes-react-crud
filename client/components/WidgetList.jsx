@@ -7,8 +7,10 @@ export default function WidgetList (props) {
     <div className='widget-list'>
       <h2>List</h2>
       {props.widgets.map(widget => {
+        // console.log(widget);
+        
         return <WidgetListItem
-          key={widget.id}
+          key={widget.name}
           widget={widget}
           hideDetails={props.hideDetails}
           showDetails={props.showDetails} 

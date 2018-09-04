@@ -596,6 +596,9 @@ function appendWidget(widget, callback) {
 }
 
 function deleteWidget(widget) {
+  // console.log(widget);
+  // console.log('hello');
+
   var url = '/api/v1/widgets/' + widget.id;
   return new Promise(function (resolve, reject) {
     _superagent2.default.delete(url).end(function (err, res) {
@@ -607,6 +610,8 @@ function deleteWidget(widget) {
 function updateWidget(widget, id) {
   console.log(widget);
   console.log(id);
+  console.log('im here');
+
   var url = '/api/v1/widgets/' + id;
 
   return new Promise(function (resolve, reject) {
@@ -18474,6 +18479,8 @@ var App = function (_React$Component) {
     value: function deleteDetails(widget) {
       var _this2 = this;
 
+      console.log(widget);
+
       (0, _api.deleteWidget)(widget).then(function () {
         _this2.refreshList();
         (0, _api.getWidgets)(_this2.renderWidgets);
@@ -20744,8 +20751,10 @@ function WidgetList(props) {
       'List'
     ),
     props.widgets.map(function (widget) {
+      // console.log(widget);
+
       return _react2.default.createElement(_WidgetListItem2.default, {
-        key: widget.id,
+        key: widget.name,
         widget: widget,
         hideDetails: props.hideDetails,
         showDetails: props.showDetails,
