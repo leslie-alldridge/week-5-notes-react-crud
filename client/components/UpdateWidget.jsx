@@ -5,8 +5,6 @@ import {updateWidget, getWidgets} from '../api'
 export default class UpdateWidget extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props);
-    
     this.state = {
       name: '',
       price: '',
@@ -16,10 +14,6 @@ export default class UpdateWidget extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.updatedWidget = this.updatedWidget.bind(this)
-    // this.refreshList = this.refreshList.bind(this)
-    console.log(this.props.refreshList);
-    
-    
   }
 
   handleChange (e) {
@@ -28,26 +22,13 @@ export default class UpdateWidget extends React.Component {
     })
   }
 
-//   refreshList (err) {
-//     this.setState({
-//       error: err,
-//       addWidgetVisible: false
-//     })
-//     getWidgets(this.renderWidgets)
-//   }
-
   updatedWidget (e) {
-    
-      
-      let newEntry = this.state
-      let id = this.props.widgetIDToUpdate
-      updateWidget(newEntry, id)
-      console.log('made it');
-      this.props.getWidgets(this.props.refreshList)
-      
-    }
+    let newEntry = this.state
+    let id = this.props.widgetIDToUpdate
+    updateWidget(newEntry, id)
+    this.props.getWidgets(this.props.refreshList)
+  }
   
-
   render () {
     
     return (
@@ -73,7 +54,7 @@ export default class UpdateWidget extends React.Component {
             onChange={this.handleChange}
             value={this.state.rating}
           /></p>
-          <button type='button' onClick={this.updatedWidget}>update widget</button>
+          <button type='button' onClick={this.updatedWidget}>Update Widget</button>
           {' '}
           <a href='#' onClick={this.props.finishAdd}>Cancel</a>
         </form>

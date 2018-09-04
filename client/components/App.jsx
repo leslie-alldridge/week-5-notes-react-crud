@@ -29,7 +29,6 @@ export default class App extends React.Component {
     this.showAddWidget = this.showAddWidget.bind(this)
     this.deleteDetails = this.deleteDetails.bind(this)
     this.showUpdate = this.showUpdate.bind(this)
-    this.submitUpdate = this.submitUpdate.bind(this)
   }
 
   componentDidMount () {
@@ -59,16 +58,10 @@ export default class App extends React.Component {
   }
 
   showUpdate (widget, id) {
-   console.log(widget);
-   console.log(id);
     this.setState({
       showUpdate: true,
       updateWidget: widget.id
     })
-  }
-
-  submitUpdate(widget, id) {
-
   }
 
   showDetails (widget) {
@@ -79,8 +72,6 @@ export default class App extends React.Component {
   }
 
   deleteDetails (widget) {
-    console.log(widget);
-    
     deleteWidget(widget).then(() => {
       this.refreshList()
       getWidgets(this.renderWidgets)
@@ -119,9 +110,8 @@ export default class App extends React.Component {
         refreshList={this.refreshList}
         getWidgets={getWidgets}
         renderWidgets={this.renderWidgets}
-          widgetIDToUpdate={this.state.updateWidget}
-          submitUpdate = {this.submitUpdate}
-          finishAdd={this.refreshList}
+        widgetIDToUpdate={this.state.updateWidget}
+        finishAdd={this.refreshList}
         />}  
 
         {this.state.detailsVisible && <WidgetDetails

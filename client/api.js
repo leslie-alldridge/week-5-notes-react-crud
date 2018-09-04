@@ -20,9 +20,6 @@ export function appendWidget (widget, callback) {
 }
 
 export function deleteWidget (widget) {
-  // console.log(widget);
-  // console.log('hello');
-  
   let url = `/api/v1/widgets/${widget.id}`;
   return new Promise((resolve, reject) => {
     request
@@ -35,12 +32,7 @@ export function deleteWidget (widget) {
 }
 
 export function updateWidget (widget, id) {
-  console.log(widget);
-  console.log(id);
-  console.log('im here');
-  
   let url = `/api/v1/widgets/${id}`;
-  
   return new Promise((resolve, reject) => {
     request
       .post(url)

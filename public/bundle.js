@@ -596,9 +596,6 @@ function appendWidget(widget, callback) {
 }
 
 function deleteWidget(widget) {
-  // console.log(widget);
-  // console.log('hello');
-
   var url = '/api/v1/widgets/' + widget.id;
   return new Promise(function (resolve, reject) {
     _superagent2.default.delete(url).end(function (err, res) {
@@ -608,12 +605,7 @@ function deleteWidget(widget) {
 }
 
 function updateWidget(widget, id) {
-  console.log(widget);
-  console.log(id);
-  console.log('im here');
-
   var url = '/api/v1/widgets/' + id;
-
   return new Promise(function (resolve, reject) {
     _superagent2.default.post(url).send(widget).end(function (err, res) {
       if (err) reject(err);else resolve();
@@ -18419,7 +18411,6 @@ var App = function (_React$Component) {
     _this.showAddWidget = _this.showAddWidget.bind(_this);
     _this.deleteDetails = _this.deleteDetails.bind(_this);
     _this.showUpdate = _this.showUpdate.bind(_this);
-    _this.submitUpdate = _this.submitUpdate.bind(_this);
     return _this;
   }
 
@@ -18456,16 +18447,11 @@ var App = function (_React$Component) {
   }, {
     key: 'showUpdate',
     value: function showUpdate(widget, id) {
-      console.log(widget);
-      console.log(id);
       this.setState({
         showUpdate: true,
         updateWidget: widget.id
       });
     }
-  }, {
-    key: 'submitUpdate',
-    value: function submitUpdate(widget, id) {}
   }, {
     key: 'showDetails',
     value: function showDetails(widget) {
@@ -18478,8 +18464,6 @@ var App = function (_React$Component) {
     key: 'deleteDetails',
     value: function deleteDetails(widget) {
       var _this2 = this;
-
-      console.log(widget);
 
       (0, _api.deleteWidget)(widget).then(function () {
         _this2.refreshList();
@@ -18533,7 +18517,6 @@ var App = function (_React$Component) {
           getWidgets: _api.getWidgets,
           renderWidgets: this.renderWidgets,
           widgetIDToUpdate: this.state.updateWidget,
-          submitUpdate: this.submitUpdate,
           finishAdd: this.refreshList
         }),
         this.state.detailsVisible && _react2.default.createElement(_WidgetDetails2.default, {
@@ -20751,8 +20734,6 @@ function WidgetList(props) {
       'List'
     ),
     props.widgets.map(function (widget) {
-      // console.log(widget);
-
       return _react2.default.createElement(_WidgetListItem2.default, {
         key: widget.name,
         widget: widget,
@@ -20987,8 +20968,6 @@ var UpdateWidget = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (UpdateWidget.__proto__ || Object.getPrototypeOf(UpdateWidget)).call(this, props));
 
-    console.log(props);
-
     _this.state = {
       name: '',
       price: '',
@@ -20998,9 +20977,6 @@ var UpdateWidget = function (_React$Component) {
     };
     _this.handleChange = _this.handleChange.bind(_this);
     _this.updatedWidget = _this.updatedWidget.bind(_this);
-    // this.refreshList = this.refreshList.bind(this)
-    console.log(_this.props.refreshList);
-
     return _this;
   }
 
@@ -21009,23 +20985,12 @@ var UpdateWidget = function (_React$Component) {
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
-
-    //   refreshList (err) {
-    //     this.setState({
-    //       error: err,
-    //       addWidgetVisible: false
-    //     })
-    //     getWidgets(this.renderWidgets)
-    //   }
-
   }, {
     key: 'updatedWidget',
     value: function updatedWidget(e) {
-
       var newEntry = this.state;
       var id = this.props.widgetIDToUpdate;
       (0, _api.updateWidget)(newEntry, id);
-      console.log('made it');
       this.props.getWidgets(this.props.refreshList);
     }
   }, {
@@ -21081,7 +21046,7 @@ var UpdateWidget = function (_React$Component) {
           _react2.default.createElement(
             'button',
             { type: 'button', onClick: this.updatedWidget },
-            'update widget'
+            'Update Widget'
           ),
           ' ',
           _react2.default.createElement(
