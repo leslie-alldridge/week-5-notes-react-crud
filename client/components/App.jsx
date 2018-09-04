@@ -4,6 +4,7 @@ import AddWidget from './AddWidget'
 import WidgetList from './WidgetList'
 import WidgetDetails from './WidgetDetails'
 import ErrorMessage from './ErrorMessage'
+import UpdateWidget from './UpdateWidget'
 
 import {getWidgets, deleteWidget} from '../api'
 
@@ -16,7 +17,9 @@ export default class App extends React.Component {
       widgets: [],
       activeWidget: null,
       detailsVisible: false,
-      addWidgetVisible: false
+      addWidgetVisible: false,
+      showUpdate: false,
+      updateWidget: 1
     }
 
     this.refreshList = this.refreshList.bind(this)
@@ -25,6 +28,8 @@ export default class App extends React.Component {
     this.renderWidgets = this.renderWidgets.bind(this)
     this.showAddWidget = this.showAddWidget.bind(this)
     this.deleteDetails = this.deleteDetails.bind(this)
+    this.showUpdate = this.showUpdate.bind(this)
+    this.submitUpdate = this.submitUpdate.bind(this)
   }
 
   componentDidMount () {
@@ -50,6 +55,19 @@ export default class App extends React.Component {
     this.setState({
       addWidgetVisible: true
     })
+  }
+
+  showUpdate (widget, id) {
+   console.log(widget);
+   console.log(id);
+    this.setState({
+      showUpdate: true,
+      updateWidget: widget.id
+    })
+  }
+
+  submitUpdate(widget, id) {
+
   }
 
   showDetails (widget) {
@@ -83,6 +101,7 @@ export default class App extends React.Component {
           showDetails={this.showDetails}
           widgets={this.state.widgets} 
           deleteDetails={this.deleteDetails}
+          showUpdate={this.showUpdate}
           />
 
         <p>
@@ -92,6 +111,14 @@ export default class App extends React.Component {
 
         {this.state.addWidgetVisible && <AddWidget
           finishAdd={this.refreshList} />}
+
+        {this.state.showUpdate && <UpdateWidget 
+        refreshList={this.refreshList}
+        getWidgets={getWidgets}
+        renderWidgets={this.renderWidgets}
+          widgetIDToUpdate={this.state.updateWidget}
+          submitUpdate = {this.submitUpdate}
+        />}  
 
         {this.state.detailsVisible && <WidgetDetails
           isVisible={this.state.detailsVisible}

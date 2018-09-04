@@ -30,3 +30,19 @@ export function deleteWidget (widget) {
       })
   })
 }
+
+export function updateWidget (widget, id) {
+  console.log(widget);
+  console.log(id);
+  let url = `/api/v1/widgets/${id}`;
+  
+  return new Promise((resolve, reject) => {
+    request
+      .post(url)
+      .send(widget)
+      .end((err, res) => {
+        if (err) reject(err)
+        else resolve()        
+      })
+  })
+}

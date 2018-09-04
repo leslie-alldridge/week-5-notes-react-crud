@@ -13,6 +13,7 @@ export default function WidgetList (props) {
           hideDetails={props.hideDetails}
           showDetails={props.showDetails} 
           deleteDetails={props.deleteDetails}
+          showUpdate={props.showUpdate}
           />
       })}
     </div>

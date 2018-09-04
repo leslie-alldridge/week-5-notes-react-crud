@@ -946,6 +946,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getWidgets = getWidgets;
 exports.appendWidget = appendWidget;
 exports.deleteWidget = deleteWidget;
+exports.updateWidget = updateWidget;
 
 var _superagent = __webpack_require__(31);
 
@@ -971,6 +972,18 @@ function deleteWidget(widget) {
   var url = '/api/v1/widgets/' + widget.id;
   return new Promise(function (resolve, reject) {
     _superagent2.default.delete(url).end(function (err, res) {
+      if (err) reject(err);else resolve();
+    });
+  });
+}
+
+function updateWidget(widget, id) {
+  console.log(widget);
+  console.log(id);
+  var url = '/api/v1/widgets/' + id;
+
+  return new Promise(function (resolve, reject) {
+    _superagent2.default.post(url).send(widget).end(function (err, res) {
       if (err) reject(err);else resolve();
     });
   });
@@ -18362,6 +18375,10 @@ var _ErrorMessage = __webpack_require__(40);
 
 var _ErrorMessage2 = _interopRequireDefault(_ErrorMessage);
 
+var _UpdateWidget = __webpack_require__(41);
+
+var _UpdateWidget2 = _interopRequireDefault(_UpdateWidget);
+
 var _api = __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -18385,7 +18402,9 @@ var App = function (_React$Component) {
       widgets: [],
       activeWidget: null,
       detailsVisible: false,
-      addWidgetVisible: false
+      addWidgetVisible: false,
+      showUpdate: false,
+      updateWidget: 1
     };
 
     _this.refreshList = _this.refreshList.bind(_this);
@@ -18394,6 +18413,8 @@ var App = function (_React$Component) {
     _this.renderWidgets = _this.renderWidgets.bind(_this);
     _this.showAddWidget = _this.showAddWidget.bind(_this);
     _this.deleteDetails = _this.deleteDetails.bind(_this);
+    _this.showUpdate = _this.showUpdate.bind(_this);
+    _this.submitUpdate = _this.submitUpdate.bind(_this);
     return _this;
   }
 
@@ -18426,6 +18447,19 @@ var App = function (_React$Component) {
         addWidgetVisible: true
       });
     }
+  }, {
+    key: 'showUpdate',
+    value: function showUpdate(widget, id) {
+      console.log(widget);
+      console.log(id);
+      this.setState({
+        showUpdate: true,
+        updateWidget: widget.id
+      });
+    }
+  }, {
+    key: 'submitUpdate',
+    value: function submitUpdate(widget, id) {}
   }, {
     key: 'showDetails',
     value: function showDetails(widget) {
@@ -18471,7 +18505,8 @@ var App = function (_React$Component) {
         _react2.default.createElement(_WidgetList2.default, {
           showDetails: this.showDetails,
           widgets: this.state.widgets,
-          deleteDetails: this.deleteDetails
+          deleteDetails: this.deleteDetails,
+          showUpdate: this.showUpdate
         }),
         _react2.default.createElement(
           'p',
@@ -18485,6 +18520,13 @@ var App = function (_React$Component) {
         ),
         this.state.addWidgetVisible && _react2.default.createElement(_AddWidget2.default, {
           finishAdd: this.refreshList }),
+        this.state.showUpdate && _react2.default.createElement(_UpdateWidget2.default, {
+          refreshList: this.refreshList,
+          getWidgets: _api.getWidgets,
+          renderWidgets: this.renderWidgets,
+          widgetIDToUpdate: this.state.updateWidget,
+          submitUpdate: this.submitUpdate
+        }),
         this.state.detailsVisible && _react2.default.createElement(_WidgetDetails2.default, {
           isVisible: this.state.detailsVisible,
           hideDetails: this.hideDetails,
@@ -20705,7 +20747,8 @@ function WidgetList(props) {
         widget: widget,
         hideDetails: props.hideDetails,
         showDetails: props.showDetails,
-        deleteDetails: props.deleteDetails
+        deleteDetails: props.deleteDetails,
+        showUpdate: props.showUpdate
       });
     })
   );
@@ -20732,7 +20775,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function WidgetListItem(_ref) {
   var widget = _ref.widget,
       showDetails = _ref.showDetails,
-      deleteDetails = _ref.deleteDetails;
+      deleteDetails = _ref.deleteDetails,
+      showUpdate = _ref.showUpdate;
 
   return _react2.default.createElement(
     'div',
@@ -20744,6 +20788,13 @@ function WidgetListItem(_ref) {
           return showDetails(widget);
         } },
       'Details'
+    ),
+    _react2.default.createElement(
+      'a',
+      { href: '#', id: widget.id, onClick: function onClick() {
+          return showUpdate(widget, widget.id);
+        } },
+      'Update'
     ),
     _react2.default.createElement(
       'a',
@@ -20887,6 +20938,152 @@ var ErrorMessage = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = ErrorMessage;
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _api = __webpack_require__(14);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UpdateWidget = function (_React$Component) {
+  _inherits(UpdateWidget, _React$Component);
+
+  function UpdateWidget(props) {
+    _classCallCheck(this, UpdateWidget);
+
+    var _this = _possibleConstructorReturn(this, (UpdateWidget.__proto__ || Object.getPrototypeOf(UpdateWidget)).call(this, props));
+
+    console.log(props);
+
+    _this.state = {
+      name: '',
+      price: '',
+      mfg: '',
+      inStock: '',
+      rating: ''
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.updatedWidget = _this.updatedWidget.bind(_this);
+    // this.refreshList = this.refreshList.bind(this)
+
+    return _this;
+  }
+
+  _createClass(UpdateWidget, [{
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+
+    //   refreshList (err) {
+    //     this.setState({
+    //       error: err,
+    //       addWidgetVisible: false
+    //     })
+    //     getWidgets(this.renderWidgets)
+    //   }
+
+  }, {
+    key: 'updatedWidget',
+    value: function updatedWidget(e) {
+
+      var newEntry = this.state;
+      var id = this.props.widgetIDToUpdate;
+      (0, _api.updateWidget)(newEntry, id);
+      //   .then(() => {
+      //     //  this.props.refreshList;
+
+      //     // this.props.refreshList()
+      //     //  this.props.getWidgets(this.props.renderWidgets)
+      //   })
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'update-widget' },
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(
+            'p',
+            null,
+            _react2.default.createElement('input', { placeholder: 'Name', name: 'name',
+              onChange: this.handleChange,
+              value: this.state.name
+            })
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _react2.default.createElement('input', { placeholder: 'Price', name: 'price',
+              onChange: this.handleChange,
+              value: this.state.price
+            })
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _react2.default.createElement('input', { placeholder: 'Manufacturer', name: 'mfg',
+              onChange: this.handleChange,
+              value: this.state.mfg
+            })
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _react2.default.createElement('input', { placeholder: 'In stock', name: 'inStock',
+              onChange: this.handleChange,
+              value: this.state.inStock
+            })
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _react2.default.createElement('input', { placeholder: 'Rating', name: 'rating',
+              onChange: this.handleChange,
+              value: this.state.rating
+            })
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'button', onClick: this.updatedWidget },
+            'update widget'
+          ),
+          ' '
+        )
+      );
+    }
+  }]);
+
+  return UpdateWidget;
+}(_react2.default.Component);
+
+exports.default = UpdateWidget;
 
 /***/ })
 /******/ ]);

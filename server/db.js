@@ -1,7 +1,8 @@
 module.exports = {
   getWidgets,
   saveWidget,
-  deleteWidget
+  deleteWidget,
+  updateWidget
 }
 
 let widgets = [{
@@ -39,5 +40,12 @@ function saveWidget (widget) {
 function deleteWidget (id) {
     widgets = widgets.filter((widget) => {
       return widget.id != id;
-     })
+    })
+}
+
+function updateWidget (id, widget) {
+  let nid = id - 1;
+   let foundWidget = widgets[nid];
+   foundWidget = widget;
+   widgets[nid] = foundWidget
 }
