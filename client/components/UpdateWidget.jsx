@@ -17,7 +17,9 @@ export default class UpdateWidget extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.updatedWidget = this.updatedWidget.bind(this)
     // this.refreshList = this.refreshList.bind(this)
-
+    console.log(this.props.refreshList);
+    
+    
   }
 
   handleChange (e) {
@@ -40,16 +42,14 @@ export default class UpdateWidget extends React.Component {
       let newEntry = this.state
       let id = this.props.widgetIDToUpdate
       updateWidget(newEntry, id)
-    //   .then(() => {
-    //     //  this.props.refreshList;
-          
-    //     // this.props.refreshList()
-    //     //  this.props.getWidgets(this.props.renderWidgets)
-    //   })
+      console.log('made it');
+      this.props.getWidgets(this.props.refreshList)
+      
     }
   
 
   render () {
+    
     return (
       <div className='update-widget'>
         <form>
@@ -75,7 +75,7 @@ export default class UpdateWidget extends React.Component {
           /></p>
           <button type='button' onClick={this.updatedWidget}>update widget</button>
           {' '}
-          {/* <a href='#' onClick={this.props.finishAdd}>Cancel</a> */}
+          <a href='#' onClick={this.props.finishAdd}>Cancel</a>
         </form>
       </div>
     )

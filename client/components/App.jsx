@@ -46,7 +46,8 @@ export default class App extends React.Component {
   refreshList (err) {
     this.setState({
       error: err,
-      addWidgetVisible: false
+      addWidgetVisible: false,
+      showUpdate: false
     })
     getWidgets(this.renderWidgets)
   }
@@ -118,6 +119,7 @@ export default class App extends React.Component {
         renderWidgets={this.renderWidgets}
           widgetIDToUpdate={this.state.updateWidget}
           submitUpdate = {this.submitUpdate}
+          finishAdd={this.refreshList}
         />}  
 
         {this.state.detailsVisible && <WidgetDetails
