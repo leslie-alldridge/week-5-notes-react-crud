@@ -1,0 +1,27 @@
+
+img{
+    width:100%;
+    max-width:100px;
+    margin-right: 20px
+}
+
+.listings{
+    padding-top: 5px;
+}
+
+h1, h2{
+    color: red;
+    text-align: center
+}
+
+.logo {
+    margin:  auto;
+    max-width: 200px;
+    padding: 20px;
+}
+
+
+.jobDescription{
+
+color: black
+}
